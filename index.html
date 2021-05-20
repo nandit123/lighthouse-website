@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <link rel="shortcut icon" href="#">
+        <!-- <script src="https://cdn.socket.io/4.1.1/socket.io.min.js" integrity="sha384-cdrFIqe3RasCMNE0jeFG9xJHog/tgOVC1E9Lzve8LQN1g5WUHo0Kvk1mawWjxX7a" crossorigin="anonymous"></script> -->
+        <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- <script src='node_modules/web3/dist/web3.min.js'></script> -->
+        <!-- <script src="https://unpkg.com/socket.io-client@2.4.1/dist/socket.io.min.js"></script> -->
+        <!-- <script src="./node_modules/socket.io-client/dist/socket.io.min.js"></script> -->
+        <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+        <script src="./index.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io-client/4.0.1/socket.io.min.js"></script> -->
+
+    </head>
+    <body>
+
+        <div style="color: white; background-color: black; padding: 20px;">
+            <h1>Lighthouse <button class="btn btn-primary" onclick="load()">Connect to metamask</button><br></h1>
+        </div>
+        <div style="padding: 30px;">
+            <h2><b># Store to Filecoin</b></h2>
+            <form style="width: 50%;">
+                <div class="form-group">
+                <label for="exampleInputEmail1">CID</label>
+                <input type="text" class="form-control" id="cidInput" placeholder="Enter File CID">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">CONFIG</label>
+                <input type="text" class="form-control" id="configInput" placeholder="Enter Storage Config">
+                </div>
+                <div class="form-group form-check">
+                </div>
+            </form>
+            <button class="btn btn-dark" onclick="callContract()" class="btn btn-primary">Submit</button>
+            <div style="margin-top: 20px;">
+                <p id="sentCid"></p>
+                <p id="tHash"></p>
+            </div>
+            <br>
+            <hr style="border-top: 3px solid;">
+            <br>
+            <h2><b># Get Storage Info</b></h2>
+            <form style="width: 50%;">
+                <div class="form-group">
+                <label for="exampleInputEmail1">CID</label>
+                <input type="text" class="form-control" id="cidInput2" placeholder="Enter File CID">
+                </div>
+                <div class="form-group form-check">
+                </div>
+            </form>
+            <button class="btn btn-dark" onclick="getStorageInfo()" class="btn btn-primary">Get Storage Info</button>
+            <div style="margin-top: 20px;">
+                <p id="storageInfo"></p>
+            </div>
+        </div>
+    </body>
+</html>

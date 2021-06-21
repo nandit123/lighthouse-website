@@ -1,3 +1,67 @@
+window.addEventListener("load", Ready); 
+
+function Ready () {
+  if (window.File && window.FileReader) {
+    console.log('ready');
+    document.getElementById("UploadButton").addEventListener('click', StartUpload);
+    document.getElementById("FileBox").addEventListener('change', FileChosen);
+  } else {
+    document.getElementById('UploadBox').innerHTML = "Your Browser Doesn't Support The File API Please Update Your Browser";
+  }
+}
+
+var SelectedFile;
+function FileChosen(event) {
+  SelectedFile = event.target.files[0];
+  console.log('selectedFile:', SelectedFile);
+  document.getElementById('NameBox').value = SelectedFile.name;
+  console.log('inside File Chosen', SelectedFile.name);
+}
+
+// const socket = new io("http://13.126.82.18:3002"); // hosted
+const socket = new io("http://127.0.0.1:3002"); // local
+var FReader;
+var Name;
+function StartUpload () {
+  if (document.getElementById('FileBox').value != "") {
+    FReader = new FileReader();
+    Name = document.getElementById('NameBox').value;
+    var Content = "<span id='NameArea'>Uploading " + SelectedFile.name + " as " + Name + "</span>";
+    Content += '<div id="ProgressContainer"><div id="ProgressBar"></div></div><span id="percent">0%</span>';
+    Content += "<span id='Uploaded'> - <span id='MB'>0</span>/" + Math.round(SelectedFile.size / 1048576) + "MB</span>";
+    document.getElementById('UploadArea').innerHTML = Content;
+    console.log('tony1');
+    FReader.onload = function(event){
+      console.log('tony2');
+        socket.emit('Upload', { 'Name' : Name, Data : event.target.result });
+        console.log('tony3');
+    }
+    console.log('tony4');
+    socket.emit('Start', { 'Name' : Name, 'Size' : SelectedFile.size });
+    console.log('tony5');
+  } else {
+      alert("Please Select A File");
+  }
+}
+
+socket.on('MoreData', function (data){
+  UpdateBar(data['Percent']);
+  var Place = data['Place'] * 524288; //The Next Blocks Starting Position
+  var NewFile; //The Variable that will hold the new Block of Data
+  if(SelectedFile.slice) 
+      NewFile = SelectedFile.slice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
+  else
+      NewFile = SelectedFile.slice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
+  FReader.readAsBinaryString(NewFile);
+});
+
+function UpdateBar(percent){
+  document.getElementById('ProgressBar').style.width = percent + '%';
+  document.getElementById('percent').innerHTML = (Math.round(percent*100)/100) + '%';
+  var MBDone = Math.round(((percent/100.0) * SelectedFile.size) / 1048576);
+  document.getElementById('MB').innerHTML = MBDone;
+}
+
 let contractAbi = ([
 {
       "anonymous": false,
@@ -97,7 +161,8 @@ function getStorageInfo() {
     let cid = document.getElementById("cidInput2").value;
     console.log('cid2:', cid);
     
-    const socket = new io("http://13.126.82.18:3002"); // hosted
+    // const socket = new io("http://13.126.82.18:3002"); // hosted
+    const socket = new io("http://127.0.0.1:3002"); // local
     // handle the event sent with socket.send()
     socket.on("message", data => {
         console.log(data);

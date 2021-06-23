@@ -55,6 +55,10 @@ socket.on('MoreData', function (data){
   FReader.readAsBinaryString(NewFile);
 });
 
+socket.on('FileDownloaded', function (data) {
+  document.getElementById("UploadArea").innerHTML = '';
+});
+
 function UpdateBar(percent){
   document.getElementById('ProgressBar').style.width = percent + '%';
   document.getElementById('percent').innerHTML = (Math.round(percent*100)/100) + '%';

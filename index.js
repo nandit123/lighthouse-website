@@ -59,6 +59,10 @@ socket.on('FileDownloaded', function (data) {
   document.getElementById("UploadArea").innerHTML = '';
 });
 
+socket.on('FileCid', function (cid) {
+  document.getElementById("FileCid").innerHTML = "<b>CID: " + cid + "</b>"
+});
+
 function UpdateBar(percent){
   document.getElementById('ProgressBar').style.width = percent + '%';
   document.getElementById('percent').innerHTML = (Math.round(percent*100)/100) + '%';

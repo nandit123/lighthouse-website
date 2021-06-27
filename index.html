@@ -52,8 +52,8 @@
                 </div>
             </div>
         </div>
-        <button class="tablink" onclick="openPage('Home', this)" id="defaultOpen">Store to Filecoin</button>
-        <button class="tablink" onclick="openPage('News', this)">Get File CIDs</button>
+        <button class="tablink" onclick="openPage('Home', this)">Store to Filecoin</button>
+        <button class="tablink" onclick="openPage('News', this)" id="defaultOpen">Get File CIDs</button>
         <button class="tablink" onclick="openPage('Contact', this)">Retrieve File Info</button>
         <button class="tablink" onclick="openPage('About', this)">About</button>
 
@@ -72,15 +72,24 @@
             </form>
             <button class="btn btn-secondary" onclick="useDefaultConfig()">Use Default Config</button>
             <button class="btn btn-dark" onclick="callContract()" class="btn btn-primary">Submit</button>
-          </div>
-          
-          <div id="News" class="tabcontent">
+            <br>
             <div style="margin-top: 20px;">
                 <p id="sentCid"></p>
                 <p id="tHash"></p>
             </div>
+          </div>
+          
+          <div id="News" class="tabcontent">
+            <form style="width: 50%">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Collection Name</label>
+                    <input type="text" class="form-control" id="cidInput" placeholder="Enter Collection Name">
+                </div>
+            </form>
+            <br>
+            <hr>
             <div id="UploadBox">
-                <input type="file" id="FileBox" class="Button" />
+                <input type="file" multiple id="FileBox" class="Button" />
                 <br>
                 <p id="NameBox"></p>                
                 <button type="button" id="UploadButton" class="Button">Upload</button>

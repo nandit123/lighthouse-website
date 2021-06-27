@@ -28,11 +28,19 @@ function Ready () {
 }
 
 var SelectedFile;
+var totalFiles;
+var Files;
+var filesProcessed = 0;
 function FileChosen(event) {
+  document.getElementById("FileCid").innerHTML = "";
+  console.log('all files:', event.target.files);
   SelectedFile = event.target.files[0];
+  totalFiles = event.target.files.length;
+  Files = event.target.files;
   console.log('selectedFile:', SelectedFile);
   document.getElementById('NameBox').value = SelectedFile.name;
   console.log('inside File Chosen', SelectedFile.name);
+  filesProcessed = 0;
 }
 
 // const socket = new io("http://13.126.82.18:3002"); // hosted
@@ -41,21 +49,29 @@ var FReader;
 var Name;
 function StartUpload () {
   if (document.getElementById('FileBox').value != "") {
-    FReader = new FileReader();
-    Name = document.getElementById('NameBox').value;
-    var Content = "<span id='NameArea'>Uploading " + SelectedFile.name + " as " + Name + "</span>";
-    Content += '<div id="ProgressContainer"><div id="ProgressBar"></div></div><span id="percent">0%</span>';
-    Content += "<span id='Uploaded'> - <span id='MB'>0</span>/" + Math.round(SelectedFile.size / 1048576) + "MB</span>";
-    document.getElementById('UploadArea').innerHTML = Content;
-    console.log('tony1');
-    FReader.onload = function(event){
-      console.log('tony2');
-        socket.emit('Upload', { 'Name' : Name, Data : event.target.result });
-        console.log('tony3');
+    try {
+      console.log('total files selected:', totalFiles);
+      FReader = new FileReader();
+      SelectedFile = Files[filesProcessed];
+      console.log('selected file:', SelectedFile);
+      Name = SelectedFile.name;
+      var Content = "<span id='NameArea'>Uploading " + SelectedFile.name + " as " + Name + "</span>";
+      Content += '<div id="ProgressContainer"><div id="ProgressBar"></div></div><span id="percent">0%</span>';
+      Content += "<span id='Uploaded'> - <span id='MB'>0</span>/" + Math.round(SelectedFile.size / 1048576) + "MB</span>";
+      document.getElementById('UploadArea').innerHTML = Content;
+      console.log('tony1');
+      FReader.onload = function(event){
+        console.log('tony2');
+          socket.emit('Upload', { 'Name' : Name, Data : event.target.result });
+          console.log('tony3');
+          console.log('filesProcessed:', filesProcessed);
+      }
+      console.log('tony4');
+      socket.emit('Start', { 'Name' : Name, 'Size' : SelectedFile.size });
+      console.log('tony5');
+    } catch (error) {
+      console.log('error:', error);
     }
-    console.log('tony4');
-    socket.emit('Start', { 'Name' : Name, 'Size' : SelectedFile.size });
-    console.log('tony5');
   } else {
       alert("Please Select A File");
   }
@@ -73,17 +89,34 @@ socket.on('MoreData', function (data){
 });
 
 socket.on('FileDownloaded', function (data) {
-  document.getElementById("UploadArea").innerHTML = '';
+  console.log('file download completed');
+  console.log('filesProcessed=', filesProcessed);
+  console.log('totalFiles=', totalFiles);
+  
+  if (filesProcessed < totalFiles) {
+    SelectedFile = Files[filesProcessed];
+    filesProcessed += 1;
+    UpdateBar(0);
+    StartUpload();
+    if (filesProcessed == totalFiles) {
+      document.getElementById("UploadArea").innerHTML = '';
+    }
+  }
 });
 
-socket.on('FileCid', function (cid) {
-  document.getElementById("FileCid").innerHTML = "<b>CID: " + cid + "</b>"
+socket.on('FileCid', function (data) {
+  document.getElementById("FileCid").innerHTML += data.name + "<b> CID: " + data.cid + "</b><br>"
+  console.log('inside filecid:', filesProcessed, ',', totalFiles);
+  if (filesProcessed == totalFiles) {
+    document.getElementById("UploadArea").innerHTML = '';
+  }
 });
 
 function UpdateBar(percent){
   document.getElementById('ProgressBar').style.width = percent + '%';
   document.getElementById('percent').innerHTML = (Math.round(percent*100)/100) + '%';
   var MBDone = Math.round(((percent/100.0) * SelectedFile.size) / 1048576);
+  console.log('MBDone:', MBDone, ' & percent:', percent);
   document.getElementById('MB').innerHTML = MBDone;
 }
 

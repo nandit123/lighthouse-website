@@ -14,15 +14,50 @@
         <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
         <script src="./index.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io-client/4.0.1/socket.io.min.js"></script> -->
+        <style>
+            /* Style tab links */
+            .tablink {
+            background-color: #555;
+            color: white;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            font-size: 17px;
+            width: 25%;
+            }
 
+            .tablink:hover {
+            background-color: #777;
+            }
+
+            /* Style the tab content (and add height:100% for full page content) */
+            .tabcontent {
+            color: black;
+            display: none;
+            padding: 100px 20px;
+            height: 100%;
+            }
+        </style>
     </head>
     <body>
-
-        <div style="color: white; background-color: black; padding: 20px;">
-            <h1>Lighthouse <button class="btn btn-primary" onclick="load()">Connect to metamask (rinkeby)</button><br></h1>
+        <div style="color: white; background-color: black; padding: 15px;">
+            <div class="row">
+                <div class="col align-self-center">
+                    <h1><b>Lighthouse</b></h1>
+                </div>
+                <div class="col col-lg-2 align-self-center">
+                    <button class="btn btn-primary" onclick="load()">Connect to metamask (rinkeby)</button>
+                </div>
+            </div>
         </div>
-        <div style="padding: 30px;">
-            <h2><b># Store to Filecoin</b></h2>
+        <button class="tablink" onclick="openPage('Home', this)">Store to Filecoin</button>
+        <button class="tablink" onclick="openPage('News', this)" id="defaultOpen">Get File CIDs</button>
+        <button class="tablink" onclick="openPage('Contact', this)">Retrieve File Info</button>
+        <button class="tablink" onclick="openPage('About', this)">About</button>
+
+        <div id="Home" class="tabcontent center-block">
             <form style="width: 50%;">
                 <div class="form-group">
                 <label for="exampleInputEmail1">CID</label>
@@ -35,15 +70,36 @@
                 <div class="form-group form-check">
                 </div>
             </form>
+            <button class="btn btn-secondary" onclick="useDefaultConfig()">Use Default Config</button>
             <button class="btn btn-dark" onclick="callContract()" class="btn btn-primary">Submit</button>
+            <br>
             <div style="margin-top: 20px;">
                 <p id="sentCid"></p>
                 <p id="tHash"></p>
             </div>
+          </div>
+          
+          <div id="News" class="tabcontent">
+            <form style="width: 50%">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Collection Name</label>
+                    <input type="text" class="form-control" id="cidInput" placeholder="Enter Collection Name">
+                </div>
+            </form>
             <br>
-            <hr style="border-top: 3px solid;">
-            <br>
-            <h2><b># Get Storage Info</b></h2>
+            <hr>
+            <div id="UploadBox">
+                <input type="file" multiple id="FileBox" class="Button" />
+                <br>
+                <p id="NameBox"></p>                
+                <button type="button" id="UploadButton" class="Button">Upload</button>
+                <span id='UploadArea'></span>
+            </div>
+            <div id="FileCid"></div>
+            <div id="FolderCid"></div>
+          </div>
+          
+          <div id="Contact" class="tabcontent">
             <form style="width: 50%;">
                 <div class="form-group">
                 <label for="exampleInputEmail1">CID</label>
@@ -56,6 +112,11 @@
             <div style="margin-top: 20px;">
                 <p id="storageInfo"></p>
             </div>
-        </div>
+          </div>
+          
+          <div id="About" class="tabcontent">
+            <h3>About</h3>
+            <p>Who we are and what we do.</p>
+          </div>
     </body>
 </html>

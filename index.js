@@ -31,9 +31,11 @@ var SelectedFile;
 var totalFiles;
 var Files;
 var filesProcessed = 0;
+var path;
 function FileChosen(event) {
   document.getElementById("FileCid").innerHTML = "";
   console.log('all files:', event.target.files);
+  path = Date.now().toString();
   SelectedFile = event.target.files[0];
   totalFiles = event.target.files.length;
   Files = event.target.files;
@@ -56,18 +58,18 @@ function StartUpload () {
       console.log('selected file:', SelectedFile);
       Name = SelectedFile.name;
       var Content = "<span id='NameArea'>Uploading " + SelectedFile.name + " as " + Name + "</span>";
-      Content += '<div id="ProgressContainer"><div id="ProgressBar"></div></div><span id="percent">0%</span>';
+      Content += '<div id="ProgreNamessContainer"><div id="ProgressBar"></div></div><span id="percent">0%</span>';
       Content += "<span id='Uploaded'> - <span id='MB'>0</span>/" + Math.round(SelectedFile.size / 1048576) + "MB</span>";
       document.getElementById('UploadArea').innerHTML = Content;
       console.log('tony1');
       FReader.onload = function(event){
         console.log('tony2');
-          socket.emit('Upload', { 'Name' : Name, Data : event.target.result });
+          socket.emit('Upload', { 'Name' : Name, Data : event.target.result, 'Path': path });
           console.log('tony3');
           console.log('filesProcessed:', filesProcessed);
       }
       console.log('tony4');
-      socket.emit('Start', { 'Name' : Name, 'Size' : SelectedFile.size });
+      socket.emit('Start', { 'Name' : Name, 'Size' : SelectedFile.size, 'Path': path });
       console.log('tony5');
     } catch (error) {
       console.log('error:', error);
@@ -105,7 +107,7 @@ socket.on('FileDownloaded', function (data) {
 });
 
 socket.on('FileCid', function (data) {
-  document.getElementById("FileCid").innerHTML += data.name + "<b> CID: " + data.cid + "</b><br>"
+  document.getElementById("FileCid").innerHTML += data.name + "<b> CID: " + data.cid + "</b> Size: " + data.size + "<br>"
   console.log('inside filecid:', filesProcessed, ',', totalFiles);
   if (filesProcessed == totalFiles) {
     document.getElementById("UploadArea").innerHTML = '';

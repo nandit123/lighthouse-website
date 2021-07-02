@@ -34,6 +34,7 @@ var filesProcessed = 0;
 var path;
 function FileChosen(event) {
   document.getElementById("FileCid").innerHTML = "";
+  document.getElementById("FolderCid").innerHTML = "";
   console.log('all files:', event.target.files);
   path = Date.now().toString();
   SelectedFile = event.target.files[0];
@@ -45,8 +46,8 @@ function FileChosen(event) {
   filesProcessed = 0;
 }
 
-// const socket = new io("http://13.126.82.18:3002"); // hosted
-const socket = new io("http://127.0.0.1:3002"); // local
+const socket = new io("http://13.126.82.18:3002"); // hosted
+// const socket = new io("http://127.0.0.1:3002"); // local
 var FReader;
 var Name;
 function StartUpload () {
@@ -101,6 +102,9 @@ socket.on('FileDownloaded', function (data) {
     UpdateBar(0);
     StartUpload();
     if (filesProcessed == totalFiles) {
+      // emit here for get info
+      console.log('now to get cid for folder:', path);
+      socket.emit('GetCid', path)
       document.getElementById("UploadArea").innerHTML = '';
     }
   }
@@ -112,6 +116,10 @@ socket.on('FileCid', function (data) {
   if (filesProcessed == totalFiles) {
     document.getElementById("UploadArea").innerHTML = '';
   }
+});
+
+socket.on('FolderCid', function (data) {
+  document.getElementById("FolderCid").innerHTML = "<b> Collection CID: " + data.cid + "<br>";
 });
 
 function UpdateBar(percent){
@@ -221,8 +229,8 @@ function getStorageInfo() {
     let cid = document.getElementById("cidInput2").value;
     console.log('cid2:', cid);
     
-    // const socket = new io("http://13.126.82.18:3002"); // hosted
-    const socket = new io("http://127.0.0.1:3002"); // local
+    const socket = new io("http://13.126.82.18:3002"); // hosted
+    // const socket = new io("http://127.0.0.1:3002"); // local
     // handle the event sent with socket.send()
     socket.on("message", data => {
         console.log(data);

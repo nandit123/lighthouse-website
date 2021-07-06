@@ -14,6 +14,7 @@
         <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
         <script src="./index.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io-client/4.0.1/socket.io.min.js"></script> -->
+        <link rel="icon" href="res/lighthouse.png" type="image/gif" sizes="16x16">
         <style>
             /* Style tab links */
             .tablink {
@@ -55,6 +56,11 @@
                 padding: 15px;
                 width: 100%;
             }
+            .center {
+                margin: auto;
+                width: 10%;
+                padding: 10px;
+            }
         </style>
     </head>
     <body>
@@ -69,10 +75,10 @@
                 </div>
             </div>
         </div>
-        <button class="tablink" onclick="openPage('Home', this)">Store to Filecoin</button>
+        <button class="tablink" onclick="openPage('Home', this)" id="defaultOpen">Store to Filecoin</button>
         <button class="tablink" onclick="openPage('News', this)">Get Files CID</button>
-        <button class="tablink" onclick="openPage('Contact', this)" id="defaultOpen">Retrieve File Info</button>
-        <button class="tablink" onclick="openPage('About', this)">About</button>
+        <button class="tablink" onclick="openPage('Contact', this)">Retrieve File Info</button>
+        <button class="tablink" onclick="openPage('About', this)">About Lighthouse</button>
 
         <div id="Home" class="tabcontent center-block">
             <form style="width: 50%;">
@@ -124,8 +130,48 @@
           </div>
           
           <div id="About" class="tabcontent">
-            <h3>About</h3>
-            <p>Who we are and what we do.</p>
-          </div>
+            
+            <div class="center">
+                <img src="res/lighthouse.png" alt="Lighthouse Logo" width="150" height="200"> 
+            </div>
+            <div class="center" style="width: 30%; font-size: large;">
+                <p>Get verifiable storage on Filecoin Network directly from Ethereum Smart Contracts. Lighthouse greatly reduces the friction for Ethereum developers to interact with the Filecoin storage network by allowing them to store files on Filecoin by directly interacting with a Lighthouse smart contract deployed on Ethereum</p>
+                <br>
+                <p>This is an Open Source Project<a href="https://github.com/nandit123/lighthouse" target="_blank"><img src="res/Github.png" alt="Github Logo" width="40" height="40"></p></a>
+                <p>Lighthouse Smart Contract on Rinkeby - <a href="https://rinkeby.etherscan.io/address/0xdFEa08D7c2B43498Bfe32778334c9279956057F0" target="_blank">0xdFEa08...6057F0</a></p>
+            </div>
+            <div class="center" style="width: 40%; font-size: large; margin-top: -40px;">
+                <img src="res/flow.png" alt="Flow" width="100%" height="270px">
+            </div>
+            <div class="center" style="width: 30%; font-size: large;">
+                <h3>How it works</h3>
+                <p>1) There is a Lighthouse smart contract deployed on Ethereum that can be triggered for a transaction by passing in an existing IPFS CID and config requesting Filecoin storage. The CID represents a unique ID of the file to be stored and the config represents the configuration in accordance with which the file has to be stored.</p>
+                <br>
+                <p>2) When a transaction is made, the smart contract emits an event with the CID and config which is intercepted by a Vulcanize DB instance. Vulcanize DB is an open source Postgres database of the Ethereum chain based on IPLD.</p>
+                <br>
+                <p>3) A Lighthouse node listens to this Vulcanize instance and receives the CID and config from the Vulcanize instance. Then the Lighthouse node prepares the CID and config to be sent to a Powergate instance which has been set up to make a storage deal with the Filecoin network on behalf of users. The Lighthouse node also exposes a WebSocket which gives out the storage info of a particular CID.This WebSocket is also used to retrieve back the file stored on the Filecoin network.</p>
+                <br>
+                <p>4) The Lighthouse node interacts with the Powergate instance to retrieve the storage info and the file itself from the Filecoin network on request.</p>
+                <br>
+                <h3>Use cases</h3>
+                <ul>
+                    <li>
+                        Storage of financial data records of defi apps on Filecoin
+                    </li>
+                    <li>
+                        Long term storage of NFTs which are mostly stored on IPFS or centralized pinning services
+                    </li>
+                    <li>
+                        Integration of Filecoin storage with your current dapp without adding a new technology into your stack
+                    </li>
+                    <li>
+                        Dapps where two or more parties transfer data to each other in exchange for Ether or other tokens on the Ethereum blockchain
+                    </li>
+                </ul>
+                <br>
+                <hr>
+                <p class="center" style="font-size: 30px;">...</p>
+            </div>
+        </div>
     </body>
 </html>

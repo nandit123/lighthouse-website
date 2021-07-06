@@ -224,6 +224,7 @@ function callContract() {
 
 function getStorageInfo() {
     document.getElementById("storageInfo").innerHTML = "";
+	document.getElementById("storageBrief").style.display = 'none';
     let cid = document.getElementById("cidInput2").value;
     
     const socket = new io("http://13.233.207.237:3002"); // hosted

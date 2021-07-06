@@ -31,6 +31,7 @@ var SelectedFile;
 var totalFiles;
 var Files;
 var filesProcessed = 0;
+var collectionSize = 0;
 var path;
 function FileChosen(event) {
   document.getElementById("FileCid").innerHTML = "";
@@ -44,10 +45,11 @@ function FileChosen(event) {
   document.getElementById('NameBox').value = SelectedFile.name;
   console.log('inside File Chosen', SelectedFile.name);
   filesProcessed = 0;
+  collectionSize = 0;
 }
 
-const socket = new io("http://13.126.82.18:3002"); // hosted
-// const socket = new io("http://127.0.0.1:3002"); // local
+// const socket = new io("http://13.126.82.18:3002"); // hosted
+const socket = new io("http://127.0.0.1:3002"); // local
 var FReader;
 var Name;
 function StartUpload () {
@@ -110,11 +112,21 @@ socket.on('FileDownloaded', function (data) {
   }
 });
 
-socket.on('FileCid', function (data) {
-  document.getElementById("FileCid").innerHTML += data.name + "<b> CID: " + data.cid + "</b> Size: " + data.size + "<br>"
-  console.log('inside filecid:', filesProcessed, ',', totalFiles);
+function bytesToSize(bytes) {
+  var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes == 0) return '0 Byte';
+  var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+  return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
+
+socket.on('FileInfo', function (data) {
+  // console.log('inside filecid:', filesProcessed, ',', totalFiles);
+  collectionSize += data.size;
+
+  document.getElementById("FileCid").innerHTML = "<b>Size:</b> " + bytesToSize(collectionSize) + "<br>"
   if (filesProcessed == totalFiles) {
     document.getElementById("UploadArea").innerHTML = '';
+    console.log('collection size:', collectionSize);
   }
 });
 
@@ -229,8 +241,8 @@ function getStorageInfo() {
     let cid = document.getElementById("cidInput2").value;
     console.log('cid2:', cid);
     
-    const socket = new io("http://13.126.82.18:3002"); // hosted
-    // const socket = new io("http://127.0.0.1:3002"); // local
+    // const socket = new io("http://13.126.82.18:3002"); // hosted
+    const socket = new io("http://127.0.0.1:3002"); // local
     // handle the event sent with socket.send()
     socket.on("message", data => {
         console.log(data);
@@ -254,5 +266,5 @@ function getStorageInfo() {
 
 function useDefaultConfig() {
   document.getElementById("configInput").value = "";
-  document.getElementById("configInput").value = "{hot:{enabled:true,allowUnfreeze:true,ipfs:{addTimeout:900},unfreezeMaxPrice:0},cold:{enabled:true,filecoin:{replicationFactor:1,dealMinDuration:518400,excludedMinersList:[],trustedMinersList:[],countryCodesList:[],renew:{enabled:true,threshold:1},address:f3rpbm3bt4muydk3iq5ainss6phht4bjbe5dq6egrx4rwzqjgwc5eruyloozvf6qjunubo467neaqsvbzyxnna,maxPrice:100000000000,fastRetrieval:true,dealStartOffset:8640,verifiedDeal:true}},repairable:false}";
+  document.getElementById("configInput").value = "{hot:{enabled:true,allowUnfreeze:true,ipfs:{addTimeout:900},unfreezeMaxPrice:0},cold:{enabled:true,filecoin:{replicationFactor:1,dealMinDuration:518400,excludedMiners:[],trustedMiners:[],countryCodes:[],renew:{enabled:false,threshold:1},address:f3rpbm3bt4muydk3iq5ainss6phht4bjbe5dq6egrx4rwzqjgwc5eruyloozvf6qjunubo467neaqsvbzyxnna,maxPrice:100000000000,fastRetrieval:true,dealStartOffset:8640,verifiedDeal:true}},repairable:false}";
 }

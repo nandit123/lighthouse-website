@@ -36,6 +36,7 @@ var path;
 function FileChosen(event) {
   document.getElementById("FileCid").innerHTML = "";
   document.getElementById("FolderCid").innerHTML = "";
+  document.getElementById("loader").style.display = "none";
   path = Date.now().toString();
   SelectedFile = event.target.files[0];
   totalFiles = event.target.files.length;
@@ -92,6 +93,7 @@ socket.on('FileDownloaded', function (data) {
       // emit here for get info
       socket.emit('GetCid', path)
       document.getElementById("UploadArea").innerHTML = '';
+	  document.getElementById("loader").style.display = "block";
     }
   }
 });
@@ -113,6 +115,7 @@ socket.on('FileInfo', function (data) {
 });
 
 socket.on('FolderCid', function (data) {
+  document.getElementById("loader").style.display = "none";
   document.getElementById("FolderCid").innerHTML = "<b> Collection CID: " + data.cid + "<br>";
 });
 

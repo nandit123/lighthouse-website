@@ -47,6 +47,14 @@
                 font-size: 0.8rem;
                 line-height: 1.2;
             }
+
+            #walletAddress {
+                font-weight: bold;
+                border: 5px solid white;
+                border-radius: 25px;
+                padding: 15px;
+                width: 100%;
+            }
         </style>
     </head>
     <body>
@@ -55,8 +63,9 @@
                 <div class="col align-self-center">
                     <h1><b>Lighthouse</b></h1>
                 </div>
-                <div class="col col-lg-2 align-self-center">
-                    <button class="btn btn-primary" onclick="load()">Connect to metamask (rinkeby)</button>
+                <div class="col col-lg-2 align-self-center" id="connectDiv">
+                    <div id="walletAddress" style="display: none;"></div> 
+                    <button class="btn btn-primary" id="connectButton" onclick="load()">Connect to metamask (rinkeby)</button>
                 </div>
             </div>
         </div>

@@ -209,7 +209,12 @@ async function connectWallet() {
      ethconnected = conn.length > 0
      if (ethconnected) {
          ethaddress = conn[0]    // get wallet address
-     }
+         console.log('wallet address:', ethaddress);
+         document.getElementById("connectButton").style.display = 'none';
+         document.getElementById("connectDiv").className = "col-lg-1";
+         document.getElementById("walletAddress").style.display = 'block';
+         document.getElementById("walletAddress").innerHTML = ethaddress.toString().slice(0, 5) + "..." + ethaddress.toString().slice(-4, );
+        }
       return true;
 }
 

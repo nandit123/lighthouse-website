@@ -1,19 +1,14 @@
 <html>
     <head>
         <link rel="shortcut icon" href="#">
-        <!-- <script src="https://cdn.socket.io/4.1.1/socket.io.min.js" integrity="sha384-cdrFIqe3RasCMNE0jeFG9xJHog/tgOVC1E9Lzve8LQN1g5WUHo0Kvk1mawWjxX7a" crossorigin="anonymous"></script> -->
         <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <!-- <script src='node_modules/web3/dist/web3.min.js'></script> -->
-        <!-- <script src="https://unpkg.com/socket.io-client@2.4.1/dist/socket.io.min.js"></script> -->
-        <!-- <script src="./node_modules/socket.io-client/dist/socket.io.min.js"></script> -->
         <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
         <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
         <script src="./index.js"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io-client/4.0.1/socket.io.min.js"></script> -->
         <link rel="icon" href="res/lighthouse.png" type="image/gif" sizes="16x16">
         <style>
             /* Style tab links */
@@ -70,7 +65,7 @@
                     <h1><b>Lighthouse</b></h1>
                 </div>
                 <div class="col col-lg-2 align-self-center" id="connectDiv">
-                    <div id="walletAddress" style="display: none;"></div> 
+                    <div id="walletAddress" style="display: none;"></div>
                     <button class="btn btn-primary" id="connectButton" onclick="load()">Connect to metamask (rinkeby)</button>
                 </div>
             </div>
@@ -101,20 +96,20 @@
                 <p id="tHash"></p>
             </div>
           </div>
-          
+
           <div id="News" class="tabcontent">
             <div id="UploadBox">
                 <p><b>Minimum 64 MB</b> for a successful deal on Filecoin Network</p>
                 <input class="btn btn-secondary" type="file" multiple id="FileBox" class="Button" />
                 <br>
-                <p id="NameBox"></p>                
+                <p id="NameBox"></p>
                 <button class="btn btn-dark" type="button" id="UploadButton" class="Button">Upload</button>
                 <span id='UploadArea'></span>
             </div>
             <div id="FileCid" style="margin-top: 30px"></div>
             <div id="FolderCid"></div>
           </div>
-          
+
           <div id="Contact" class="tabcontent">
             <form style="width: 50%;">
                 <div class="form-group">
@@ -130,11 +125,11 @@
                 <textarea readonly id="storageInfo"></textarea>
             </div>
           </div>
-          
+
           <div id="About" class="tabcontent">
-            
+
             <div class="center">
-                <img src="res/lighthouse.png" alt="Lighthouse Logo" width="150" height="200"> 
+                <img src="res/lighthouse.png" alt="Lighthouse Logo" width="150" height="200">
             </div>
             <div class="center" style="width: 30%; font-size: large;">
                 <p>Get verifiable storage on Filecoin Network directly from Ethereum Smart Contracts. Lighthouse greatly reduces the friction for Ethereum developers to interact with the Filecoin storage network by allowing them to store files on Filecoin by directly interacting with a Lighthouse smart contract deployed on Ethereum</p>

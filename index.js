@@ -36,14 +36,11 @@ var path;
 function FileChosen(event) {
   document.getElementById("FileCid").innerHTML = "";
   document.getElementById("FolderCid").innerHTML = "";
-  console.log('all files:', event.target.files);
   path = Date.now().toString();
   SelectedFile = event.target.files[0];
   totalFiles = event.target.files.length;
   Files = event.target.files;
-  console.log('selectedFile:', SelectedFile);
   document.getElementById('NameBox').value = SelectedFile.name;
-  console.log('inside File Chosen', SelectedFile.name);
   filesProcessed = 0;
   collectionSize = 0;
 }
@@ -55,25 +52,17 @@ var Name;
 function StartUpload () {
   if (document.getElementById('FileBox').value != "") {
     try {
-      console.log('total files selected:', totalFiles);
       FReader = new FileReader();
       SelectedFile = Files[filesProcessed];
-      console.log('selected file:', SelectedFile);
       Name = SelectedFile.name;
       var Content = "<span id='NameArea'>Uploading " + SelectedFile.name + " as " + Name + "</span>";
       Content += '<div id="ProgreNamessContainer"><div id="ProgressBar"></div></div><span id="percent">0%</span>';
       Content += "<span id='Uploaded'> - <span id='MB'>0</span>/" + Math.round(SelectedFile.size / 1048576) + "MB</span>";
       document.getElementById('UploadArea').innerHTML = Content;
-      console.log('tony1');
       FReader.onload = function(event){
-        console.log('tony2');
           socket.emit('Upload', { 'Name' : Name, Data : event.target.result, 'Path': path });
-          console.log('tony3');
-          console.log('filesProcessed:', filesProcessed);
       }
-      console.log('tony4');
       socket.emit('Start', { 'Name' : Name, 'Size' : SelectedFile.size, 'Path': path });
-      console.log('tony5');
     } catch (error) {
       console.log('error:', error);
     }
@@ -94,10 +83,6 @@ socket.on('MoreData', function (data){
 });
 
 socket.on('FileDownloaded', function (data) {
-  console.log('file download completed');
-  console.log('filesProcessed=', filesProcessed);
-  console.log('totalFiles=', totalFiles);
-  
   if (filesProcessed < totalFiles) {
     SelectedFile = Files[filesProcessed];
     filesProcessed += 1;
@@ -105,7 +90,6 @@ socket.on('FileDownloaded', function (data) {
     StartUpload();
     if (filesProcessed == totalFiles) {
       // emit here for get info
-      console.log('now to get cid for folder:', path);
       socket.emit('GetCid', path)
       document.getElementById("UploadArea").innerHTML = '';
     }
@@ -120,13 +104,11 @@ function bytesToSize(bytes) {
 }
 
 socket.on('FileInfo', function (data) {
-  // console.log('inside filecid:', filesProcessed, ',', totalFiles);
   collectionSize += data.size;
 
   document.getElementById("FileCid").innerHTML = "<b>Size:</b> " + bytesToSize(collectionSize) + "<br>"
   if (filesProcessed == totalFiles) {
     document.getElementById("UploadArea").innerHTML = '';
-    console.log('collection size:', collectionSize);
   }
 });
 
@@ -138,7 +120,6 @@ function UpdateBar(percent){
   document.getElementById('ProgressBar').style.width = percent + '%';
   document.getElementById('percent').innerHTML = (Math.round(percent*100)/100) + '%';
   var MBDone = Math.round(((percent/100.0) * SelectedFile.size) / 1048576);
-  console.log('MBDone:', MBDone, ' & percent:', percent);
   document.getElementById('MB').innerHTML = MBDone;
 }
 
@@ -226,25 +207,21 @@ function callContract() {
     document.getElementById("sentCid").innerHTML = "";
     document.getElementById("tHash").innerHTML = "";
     // window.web3 = new Web3("https://rinkeby.infura.io/v3/3d635004c08743daae3a5cb579559dbd");
-    console.log("eth address:", ethaddress);
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
     let cid = document.getElementById("cidInput").value;
     let config = document.getElementById("configInput").value;
-    console.log('cid:', cid, ' and config:', config);
     let contract = new ethers.Contract("0xdFEa08D7c2B43498Bfe32778334c9279956057F0", contractAbi, provider);
     let contractWithSigner = contract.connect(signer);
     contractWithSigner.store(cid, config).then(async(res) => {
         document.getElementById("sentCid").innerHTML = '<b>CID:</b> ' + cid;
         document.getElementById("tHash").innerHTML = '<b>Transaction Hash:</b> <a href="https://rinkeby.etherscan.io/tx/' + res.hash + '" target="_blank">' + res.hash + "</a>";
-        console.log(res.hash);
     })
 }
 
 function getStorageInfo() {
     document.getElementById("storageInfo").innerHTML = "";
     let cid = document.getElementById("cidInput2").value;
-    console.log('cid2:', cid);
     
     // const socket = new io("http://13.126.82.18:3002"); // hosted
     const socket = new io("http://127.0.0.1:3002"); // local
@@ -254,7 +231,6 @@ function getStorageInfo() {
     });
   
     socket.on("connect", () => {
-        console.log('connection made cid:', cid);
         socket.emit("cid", cid);
     });
 
@@ -270,7 +246,6 @@ function getStorageInfo() {
               document.getElementById("storageBrief").innerHTML = '<b>Deal ID: </b><a href="https://filfox.info/en/deal/' + dealId + '" target="_blank">' + dealId + '</a>';
             }
         } else {
-            console.log('storageInfo:', storageInfo)
             document.getElementById("storageInfo").innerHTML = storageInfo.storageInfo.toString();
         }
         socket.disconnect() 

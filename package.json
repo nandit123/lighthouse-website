@@ -5,12 +5,17 @@
   "main": "index.js",
   "scripts": {
     "web-server": "http-server httpdocs &",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "socket.io-client": "^2.4.0",
     "web3": "^1.3.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-google": "^0.14.0"
   }
 }

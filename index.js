@@ -219,7 +219,7 @@ function callContract() {
     let contractWithSigner = contract.connect(signer);
     contractWithSigner.store(cid, config).then(async(res) => {
         document.getElementById("sentCid").innerHTML = '<b>CID:</b> ' + cid;
-        document.getElementById("tHash").innerHTML = '<b>Transaction Hash:</b> ' + res.hash;
+        document.getElementById("tHash").innerHTML = '<b>Transaction Hash:</b> <a href="https://rinkeby.etherscan.io/tx/' + res.hash + '" target="_blank">' + res.hash + "</a>";
         console.log(res.hash);
     })
 }

@@ -39,6 +39,14 @@
             padding: 100px 20px;
             height: 100%;
             }
+
+            textarea {
+                width: 70%;
+                min-height: 30rem;
+                font-family: "Lucida Console", Monaco, monospace;
+                font-size: 0.8rem;
+                line-height: 1.2;
+            }
         </style>
     </head>
     <body>
@@ -53,8 +61,8 @@
             </div>
         </div>
         <button class="tablink" onclick="openPage('Home', this)">Store to Filecoin</button>
-        <button class="tablink" onclick="openPage('News', this)" id="defaultOpen">Get File CIDs</button>
-        <button class="tablink" onclick="openPage('Contact', this)">Retrieve File Info</button>
+        <button class="tablink" onclick="openPage('News', this)">Get File CIDs</button>
+        <button class="tablink" onclick="openPage('Contact', this)" id="defaultOpen">Retrieve File Info</button>
         <button class="tablink" onclick="openPage('About', this)">About</button>
 
         <div id="Home" class="tabcontent center-block">
@@ -110,7 +118,7 @@
             </form>
             <button class="btn btn-dark" onclick="getStorageInfo()" class="btn btn-primary">Get Storage Info</button>
             <div style="margin-top: 20px;">
-                <p id="storageInfo"></p>
+                <textarea readonly id="storageInfo"></textarea>
             </div>
           </div>
           

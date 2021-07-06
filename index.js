@@ -247,7 +247,11 @@ function getStorageInfo() {
               document.getElementById("storageBrief").style.display = 'block';
               let dealId = storageInfo.cidInfo.currentStorageInfo.cold.filecoin.proposalsList[0].dealId;
               document.getElementById("storageBrief").innerHTML = '<b>Deal ID: </b><a href="https://filfox.info/en/deal/' + dealId + '" target="_blank">' + dealId + '</a>';
-            }
+            } else if (storageInfo.cidInfo.executingStorageJob) {
+				document.getElementById("storageBrief").innerHTML = '<b>Deal Status: </b> Deal Executing';				
+			} else {
+				document.getElementById("storageBrief").innerHTML = '<b>Deal Status: </b> Not made. Try Again later or with different config';				
+			}
         } else {
             document.getElementById("storageInfo").innerHTML = storageInfo.storageInfo.toString();
         }

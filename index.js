@@ -259,11 +259,18 @@ function getStorageInfo() {
     });
 
     socket.on("storageInfo", (storageInfo) => {
-        if (storageInfo.cidInfo) {
+        document.getElementById("storageBrief").style.display = 'none';
+        if (!storageInfo.storageInfo) {
             storageInfo = jQuery.parseJSON(storageInfo)
             var textedJson = JSON.stringify(storageInfo, undefined, 4);
             document.getElementById("storageInfo").innerHTML = textedJson;
+            if (storageInfo.cidInfo.currentStorageInfo.cold.filecoin.proposalsList[0].dealId) {
+              document.getElementById("storageBrief").style.display = 'block';
+              let dealId = storageInfo.cidInfo.currentStorageInfo.cold.filecoin.proposalsList[0].dealId;
+              document.getElementById("storageBrief").innerHTML = '<b>Deal ID: </b><a href="https://filfox.info/en/deal/' + dealId + '" target="_blank">' + dealId + '</a>';
+            }
         } else {
+            console.log('storageInfo:', storageInfo)
             document.getElementById("storageInfo").innerHTML = storageInfo.storageInfo.toString();
         }
         socket.disconnect() 

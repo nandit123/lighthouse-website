@@ -104,6 +104,7 @@
           
           <div id="News" class="tabcontent">
             <div id="UploadBox">
+                <p><b>Minimum 64 MB</b> for a successful deal on Filecoin Network</p>
                 <input class="btn btn-secondary" type="file" multiple id="FileBox" class="Button" />
                 <br>
                 <p id="NameBox"></p>                
@@ -125,6 +126,7 @@
             </form>
             <button class="btn btn-dark" onclick="getStorageInfo()" class="btn btn-primary">Get Storage Info</button>
             <div style="margin-top: 20px;">
+                <div style="display: none;" id="storageBrief"></div><br>
                 <textarea readonly id="storageInfo"></textarea>
             </div>
           </div>

@@ -61,7 +61,7 @@
             </div>
         </div>
         <button class="tablink" onclick="openPage('Home', this)">Store to Filecoin</button>
-        <button class="tablink" onclick="openPage('News', this)">Get File CIDs</button>
+        <button class="tablink" onclick="openPage('News', this)">Get Files CID</button>
         <button class="tablink" onclick="openPage('Contact', this)" id="defaultOpen">Retrieve File Info</button>
         <button class="tablink" onclick="openPage('About', this)">About</button>
 
@@ -88,14 +88,6 @@
           </div>
           
           <div id="News" class="tabcontent">
-            <form style="width: 50%">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Collection Name</label>
-                    <input type="text" class="form-control" id="cidInput" placeholder="Enter Collection Name">
-                </div>
-            </form>
-            <br>
-            <hr>
             <div id="UploadBox">
                 <input class="btn btn-secondary" type="file" multiple id="FileBox" class="Button" />
                 <br>

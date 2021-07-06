@@ -254,14 +254,12 @@ function getStorageInfo() {
     });
 
     socket.on("storageInfo", (storageInfo) => {
-        storageInfo = jQuery.parseJSON(storageInfo)
-        var textedJson = JSON.stringify(storageInfo, undefined, 4);
-
         if (storageInfo.cidInfo) {
+            storageInfo = jQuery.parseJSON(storageInfo)
+            var textedJson = JSON.stringify(storageInfo, undefined, 4);
             document.getElementById("storageInfo").innerHTML = textedJson;
         } else {
-          console.log('hello else')
-            document.getElementById("storageInfo").innerHTML = storageInfo.toString();
+            document.getElementById("storageInfo").innerHTML = storageInfo.storageInfo.toString();
         }
         socket.disconnect() 
     });

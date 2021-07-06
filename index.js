@@ -243,8 +243,8 @@ function getStorageInfo() {
             storageInfo = jQuery.parseJSON(storageInfo)
             var textedJson = JSON.stringify(storageInfo, undefined, 4);
             document.getElementById("storageInfo").innerHTML = textedJson;
+			document.getElementById("storageBrief").style.display = 'block';
             if ("currentStorageInfo" in storageInfo.cidInfo) {
-              document.getElementById("storageBrief").style.display = 'block';
               let dealId = storageInfo.cidInfo.currentStorageInfo.cold.filecoin.proposalsList[0].dealId;
               document.getElementById("storageBrief").innerHTML = '<b>Deal ID: </b><a href="https://filfox.info/en/deal/' + dealId + '" target="_blank">' + dealId + '</a>';
             } else if ("executingStorageJob" in storageInfo.cidInfo) {

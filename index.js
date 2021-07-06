@@ -243,11 +243,11 @@ function getStorageInfo() {
             storageInfo = jQuery.parseJSON(storageInfo)
             var textedJson = JSON.stringify(storageInfo, undefined, 4);
             document.getElementById("storageInfo").innerHTML = textedJson;
-            if (storageInfo.cidInfo.currentStorageInfo.cold.filecoin.proposalsList[0].dealId) {
+            if ("currentStorageInfo" in storageInfo.cidInfo) {
               document.getElementById("storageBrief").style.display = 'block';
               let dealId = storageInfo.cidInfo.currentStorageInfo.cold.filecoin.proposalsList[0].dealId;
               document.getElementById("storageBrief").innerHTML = '<b>Deal ID: </b><a href="https://filfox.info/en/deal/' + dealId + '" target="_blank">' + dealId + '</a>';
-            } else if (storageInfo.cidInfo.executingStorageJob) {
+            } else if ("executingStorageJob" in storageInfo.cidInfo) {
 				document.getElementById("storageBrief").innerHTML = '<b>Deal Status: </b> Deal Executing';				
 			} else {
 				document.getElementById("storageBrief").innerHTML = '<b>Deal Status: </b> Not made. Try Again later or with different config';				

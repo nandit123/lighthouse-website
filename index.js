@@ -157,57 +157,111 @@ function UpdateBar(percent){
 }
 
 let contractAbi = ([
-{
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "uploader",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "cid",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "config",
-          "type": "string"
-        }
-      ],
-      "name": "StorageRequest",
-      "type": "event"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "cid",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "config",
-          "type": "string"
-        }
-      ],
-      "name": "store",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "uploader",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "config",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "fileCost",
+				"type": "uint256"
+			}
+		],
+		"name": "StorageRequest",
+		"type": "event"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "fallback"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "recipient",
+				"type": "address"
+			}
+		],
+		"name": "getPaid",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "requests",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "config",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "fileCost",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "config",
+				"type": "string"
+			}
+		],
+		"name": "store",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	}
 ]);
 
 let ethaddress;
@@ -244,9 +298,11 @@ function callContract() {
     const signer = provider.getSigner()
     let cid = document.getElementById("cidInput").value;
     let config = document.getElementById("configInput").value;
-    let contract = new ethers.Contract("0xdFEa08D7c2B43498Bfe32778334c9279956057F0", contractAbi, provider);
+    let contract = new ethers.Contract("0x95165319c470E5E9A9A94B0c34708C85DC82912e", contractAbi, provider);
     let contractWithSigner = contract.connect(signer);
-    contractWithSigner.store(cid, config).then(async(res) => {
+    let cost = document.getElementById("cidCost").innerHTML;
+    console.log('cost:', cost, ' typeof:', typeof cost);
+    contractWithSigner.store(cid, config, {value: ethers.utils.parseEther(cost)}).then(async(res) => {
         document.getElementById("sentCid").innerHTML = '<b>CID:</b> ' + cid;
         document.getElementById("tHash").innerHTML = '<b>Transaction Hash:</b> <a href="https://rinkeby.etherscan.io/tx/' + res.hash + '" target="_blank">' + res.hash + "</a>";
     })

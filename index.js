@@ -93,7 +93,7 @@ const filCostInEth = async (size, sizeFormatted) => { // function to get FIL cos
   const conversionRate = await myJson.data.market_data.price_eth;
   // console.log('myjson', myJson)
   document.getElementById('storageCostDiv').style.display = 'block';
-  document.getElementById('submitButton').style.display = 'block';
+  document.getElementById('submitButtonDiv').style.display = 'block';
   document.getElementById('converstonRate').innerHTML = `${conversionRate.toFixed(5)} ETH`;
   document.getElementById('cidSize').innerHTML = sizeFormatted;
   document.getElementById('cidCost').innerHTML = ((size * costInFil * conversionRate) / (1024 * 1024 * 1024)).toFixed(18);

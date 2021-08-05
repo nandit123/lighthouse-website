@@ -1,0 +1,78 @@
+/* Style tab links */
+.tablink {
+  background-color: #555;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 25%;
+}
+
+.tablink:hover {
+  background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+  color: black;
+  display: none;
+  padding: 100px 20px;
+  height: 100%;
+}
+
+textarea {
+  width: 70%;
+  min-height: 30rem;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+#walletAddress {
+  font-weight: bold;
+  border: 5px solid white;
+  border-radius: 25px;
+  padding: 15px;
+  width: 100%;
+}
+.center {
+  margin: auto;
+  width: 10%;
+  padding: 10px;
+}
+#loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  position: absolute;
+  margin-top:20px;
+  display: none;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#storageCostDiv {
+  margin-top: 50px;
+  display: none;
+  background-color: #4d1170;
+  color: white;
+  padding: 15px;
+  width: max-content;
+  border-radius: 15px;
+}

@@ -60,6 +60,8 @@ function Ready() {
   document.getElementById('converstonRate').innerHTML = "";
   document.getElementById('cidSize').innerHTML = "";
   document.getElementById('cidCost').innerHTML = "";
+
+  load();
 }
 
 function bytesToSize(bytes) {
@@ -219,7 +221,11 @@ let ethaddress;
 
 async function connectWallet() {
   const conn = await window.ethereum.enable();
-
+  await window.ethereum.request({
+    method: 'wallet_switchEthereumChain',
+    params: [{ chainId: '0x4' }], // 0x4 for rinkeby chainId must be in hexadecimal numbers
+  });
+  
   const ethconnected = conn.length > 0;
   if (ethconnected) {
     ethaddress = conn[0]; // get wallet address

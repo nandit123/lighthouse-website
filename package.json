@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "eslint-plugin-html": "^6.1.2",
     "socket.io-client": "^2.4.0",
     "web3": "^1.3.6"
   },

@@ -10,5 +10,11 @@
         "ecmaVersion": 12
     },
     "rules": {
+    },
+    "plugins": [
+        "html"
+    ],
+    "settings": {
+        "html/html-extensions": [".html", ".we"]  // consider .html and .we files as HTML
     }
 }

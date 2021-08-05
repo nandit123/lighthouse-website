@@ -72,6 +72,36 @@ function StartUpload () {
   }
 }
 
+function getCidSize () {
+  let cid = document.getElementById("cidInput").value;
+  socket.emit('GetCidSize', cid);
+}
+
+socket.on('CidSize', function (data) {
+  if (data.size == "Error") {
+    console.log('error:', data.size);
+  } else {
+    let size = data.size;
+    let sizeFormatted = bytesToSize(size);
+    filCostInEth(size, sizeFormatted); // get's current price of FIL in ETH
+  }
+});
+
+const filCostInEth = async (size, sizeFormatted) => { // function to get FIL cost in ETH
+  const costInFil = 0.0000011972551454466497 // FIL / GB /Year
+  const response = await fetch('https://data.messari.io/api/v1/assets/fil/metrics');
+  const myJson = await response.json(); //extract JSON from the http response
+  // do something with myJson
+  let conversionRate = await myJson.data.market_data.price_eth;
+  // console.log('myjson', myJson)
+  document.getElementById("storageCostDiv").style.display = "block";
+  document.getElementById("submitButton").style.display = "block";
+  document.getElementById("converstonRate").innerHTML = conversionRate.toFixed(5) + " ETH";
+  console.log("size of cid:", size, " (" + sizeFormatted + ")");
+  document.getElementById("cidSize").innerHTML = sizeFormatted;
+  document.getElementById("cidCost").innerHTML = ((size * costInFil * conversionRate ) / (1024 * 1024 * 1024)).toFixed(18);
+}
+
 socket.on('MoreData', function (data){
   UpdateBar(data['Percent']);
   var Place = data['Place'] * 524288; //The Next Blocks Starting Position

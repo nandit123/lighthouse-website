@@ -113,7 +113,14 @@
             </form>
             <button class="btn btn-secondary" onclick="useCustomConfig()">Set Custom Config</button>
             <button class="btn btn-secondary" onclick="useDefaultConfig()">Use Default Config</button>
-            <button class="btn btn-dark" onclick="callContract()" class="btn btn-primary">Submit</button>
+            <button onclick="getCidSize()" class="btn btn-primary" id="getCostButton">Get Cost</button>
+            <div style="margin-top: 50px; display: none;" id="storageCostDiv">
+                <p>Cost of storage 1 GB / Year in FIL: 0.0000011972</p>
+                <p>Total Size of CID: <span id="cidSize"></span></p>
+                <p>Converstion Rate: 1 FIL => <span id="converstonRate"></span></p>
+                <p>Total Cost in ETH: <span id="cidCost"></span></p>
+            </div>
+            <button class="btn btn-dark" onclick="callContract()" class="btn btn-primary" id="submitButton" style="display: none; margin-top: 10px;">Submit</button>
             <br>
             <div style="margin-top: 20px;">
                 <p id="sentCid"></p>

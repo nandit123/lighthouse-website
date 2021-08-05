@@ -54,6 +54,12 @@ function Ready() {
   } else {
     document.getElementById('UploadBox').innerHTML = "Your Browser Doesn't Support The File API Please Update Your Browser";
   }
+
+  document.getElementById("storageCostDiv").style.display = "none";
+  document.getElementById("submitButtonDiv").style.display = "none";
+  document.getElementById('converstonRate').innerHTML = "";
+  document.getElementById('cidSize').innerHTML = "";
+  document.getElementById('cidCost').innerHTML = "";
 }
 
 function bytesToSize(bytes) {

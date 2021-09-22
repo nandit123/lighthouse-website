@@ -163,6 +163,193 @@ socket.on('FolderCid', (data) => {
   document.getElementById('FolderCid').innerHTML = `<b> Collection CID: ${data.cid}<br>`;
 });
 
+const lighthouseAbi = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "uploader",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "config",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "fileCost",
+				"type": "uint256"
+			}
+		],
+		"name": "StorageRequest",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "requester",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			}
+		],
+		"name": "StorageStatusRequest",
+		"type": "event"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "fallback"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "recipient",
+				"type": "address"
+			}
+		],
+		"name": "getPaid",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "dealIds",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "active",
+				"type": "bool"
+			}
+		],
+		"name": "publishStorageStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			}
+		],
+		"name": "requestStorageStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "requests",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "config",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "fileCost",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "statuses",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "dealIds",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "active",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "cid",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "config",
+				"type": "string"
+			}
+		],
+		"name": "store",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	}
+];
+
 const contractAbi = ([
   {
     anonymous: false,
@@ -249,7 +436,7 @@ function callContract() {
   const signer = provider.getSigner();
   const cid = document.getElementById('cidInput').value;
   const config = document.getElementById('configInput').value;
-  const contract = new ethers.Contract('0xdFEa08D7c2B43498Bfe32778334c9279956057F0', contractAbi, provider);
+  const contract = new ethers.Contract('0x5e507e4f223364176D0294D1696226f2405f4EeD', lighthouseAbi, provider);
   const contractWithSigner = contract.connect(signer);
   contractWithSigner.store(cid, config).then(async (res) => {
     document.getElementById('sentCid').innerHTML = `<b>CID:</b> ${cid}`;
@@ -292,6 +479,18 @@ function getStorageInfo() {
       document.getElementById('storageInfo').innerHTML = data.storageInfo.toString();
     }
     socket.disconnect();
+  });
+}
+
+function requestStorageStatusOnChain() {
+  document.getElementById('tHash2').innerHTML = '';
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const cid = document.getElementById('cidInput2').value;
+  const contract = new ethers.Contract('0x5e507e4f223364176D0294D1696226f2405f4EeD', lighthouseAbi, provider);
+  const contractWithSigner = contract.connect(signer);
+  contractWithSigner.requestStorageStatus(cid).then(async (res) => {
+    document.getElementById('tHash2').innerHTML = `<b>Transaction Hash:</b> <a href="https://rinkeby.etherscan.io/tx/${res.hash}" target="_blank">${res.hash}</a>`;
   });
 }
 

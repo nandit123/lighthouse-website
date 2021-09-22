@@ -1,5 +1,5 @@
-// const socket = new io('http://13.233.207.237:3002'); // hosted
-const socket = new io('http://127.0.0.1:3002'); // local
+const socket = new io('http://13.233.207.237:3002'); // hosted
+// const socket = new io('http://127.0.0.1:3002'); // local
 let FReader;
 let Name;
 let SelectedFile;
@@ -449,8 +449,8 @@ function getStorageInfo() {
   document.getElementById('storageBrief').style.display = 'none';
   const cid = document.getElementById('cidInput2').value;
 
-  // const socket = new io('http://13.233.207.237:3002'); // hosted
-  const socket = new io('http://127.0.0.1:3002'); // local
+  const socket = new io('http://13.233.207.237:3002'); // hosted
+  // const socket = new io('http://127.0.0.1:3002'); // local
   // handle the event sent with socket.send()
   socket.on('message', (data) => {
     console.log(data);
